@@ -3,7 +3,7 @@ using System;
 class Program
 {
     static void Main()
-    {      
+    {
         const char PlayerSymbol = '@';
         const char WallSymbol = '#';
         const char EmptySymbol = ' ';
@@ -38,6 +38,7 @@ class Program
         {
             Console.Clear();
             DisplayMap(map);
+
             Console.WriteLine($"\nУправление: {MoveUp} - вверх, {MoveDown} - вниз, {MoveLeft} - влево, {MoveRight} - вправо, {ExitGame} - выход");
             Console.WriteLine($"Собрано сокровищ: {treasuresFound}/{TotalTreasures}");
             Console.Write("Введите команду: ");
@@ -49,12 +50,12 @@ class Program
             {
                 isPlaying = false;
                 Console.WriteLine("Выход из игры!");
-                break;
+                continue;
             }
 
             int newPositionX = playerPositionX;
             int newPositionY = playerPositionY;
-            CalculateNewPosition(input, ref newPositionX, ref newPositionY);
+            CalculateNewPosition(input, ref newPositionX, ref newPositionY, MoveUp, MoveDown, MoveLeft, MoveRight);
 
             if (CanMoveTo(map, newPositionX, newPositionY, WallSymbol))
             {
@@ -105,6 +106,7 @@ class Program
                 Console.Write(map[y, x]);
                 Console.Write(' ');
             }
+
             Console.WriteLine();
         }
     }
@@ -123,22 +125,27 @@ class Program
         return targetCell != wallSymbol;
     }
 
-    static void CalculateNewPosition(char input, ref int positionX, ref int positionY)
+    static void CalculateNewPosition(char input, ref int positionX, ref int positionY,
+                                   char moveUp, char moveDown, char moveLeft, char moveRight)
     {
         switch (char.ToLower(input))
         {
             case 'w':
                 positionY--;
                 break;
+
             case 's':
                 positionY++;
                 break;
+
             case 'a':
                 positionX--;
                 break;
+
             case 'd':
                 positionX++;
                 break;
+
             default:
                 Console.WriteLine("Неверная команда! Используйте W, A, S, D для движения.");
                 break;
